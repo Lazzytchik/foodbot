@@ -8,6 +8,7 @@ import (
 
 type IngridientsOperator interface {
 	All(ctx context.Context) ([]Ingridient, error)
+	Random(ctx context.Context, limit int) ([]Ingridient, error)
 }
 
 type Postgres struct {
