@@ -4,7 +4,7 @@ import (
 	tgbotapi "github.com/go-telegram-bot-api/telegram-bot-api/v5"
 )
 
-type BotHandler func(tgbotapi.Update)
+type BotHandler func(tgbotapi.Update, Params)
 
 type BotRouter struct {
 	routes map[string]BotHandler
@@ -37,5 +37,5 @@ func (r *BotRouter) Handle(query string, update tgbotapi.Update) {
 		return
 	}
 
-	handler(update)
+	handler(update, params)
 }
