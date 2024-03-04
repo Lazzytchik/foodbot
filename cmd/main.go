@@ -20,7 +20,7 @@ func main() {
 		log.Fatalf("Bot API init error: ", err)
 	}
 
-	db, err := sqlx.Open("postgres", "postgresql://lazzy:1111@192.168.1.102:5432/foodpicker?sslmode=disable&application_name=foodbot")
+	db, err := sqlx.Open("postgres", "postgresql://lazzy:1111@192.168.1.104:5432/foodpicker?sslmode=disable&application_name=foodbot")
 	if err != nil {
 		log.Fatalf("Cannot open db: %v", err)
 	}
@@ -47,8 +47,18 @@ func main() {
 	updates := bot.GetUpdatesChan(u)
 
 	for update := range updates {
+		if update.CallbackQuery != nil {
+			log.Println(update.CallbackQuery)
+			err := service.Router.Handle(update.CallbackQuery.Data, update)
+			if err != nil {
+				log.Println(err)
+			}
+		}
 		if update.Message != nil {
-			service.Router.Handle(update.Message.Text, update)
+			err := service.Router.Handle(update.Message.Text, update)
+			if err != nil {
+				log.Println(err)
+			}
 		}
 	}
 }
