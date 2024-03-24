@@ -2,9 +2,11 @@ package main
 
 import (
 	"log"
+	"net/http"
+	"os"
+	"time"
 
 	tgbotapi "github.com/go-telegram-bot-api/telegram-bot-api/v5"
-	"github.com/jmoiron/sqlx"
 	"github.com/lazzytchik/foodbot/app"
 	"github.com/lazzytchik/foodbot/internal/errors"
 	"github.com/lazzytchik/foodbot/internal/ingridients"
@@ -20,15 +22,11 @@ func main() {
 		log.Fatalf("Bot API init error: ", err)
 	}
 
-	db, err := sqlx.Open("postgres", "postgresql://lazzy:1111@192.168.1.104:5432/foodpicker?sslmode=disable&application_name=foodbot")
-	if err != nil {
-		log.Fatalf("Cannot open db: %v", err)
-	}
-
 	service := &app.Service{
-		Ingridients: &ingridients.Default{
-			StorageOperator: &ingridients.Postgres{
-				DB: db,
+		Ingridients: &ingridients.External{
+			URL: os.Getenv("FOODAPI_URL"),
+			Client: http.Client{
+				Timeout: time.Minute,
 			},
 		},
 		Errors: errors.Factory{

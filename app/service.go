@@ -84,8 +84,6 @@ func (s *Service) FindIngridient(update tgbotapi.Update, params Params) error {
 		return err
 	}
 
-	log.Println(ings)
-
 	msg := tgbotapi.NewMessage(update.Message.Chat.ID, "Вот ингридиенты по запросу "+searchString+":")
 	msg.ReplyMarkup = ingridients.InlineKeyboardPresenter{Model: ings}.Keyboard()
 
