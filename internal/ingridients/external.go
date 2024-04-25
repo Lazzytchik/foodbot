@@ -21,6 +21,10 @@ func (d *External) All(ctx context.Context) ([]Ingridient, error) {
 		return []Ingridient{}, err
 	}
 
+	if resp.StatusCode != http.StatusOK {
+		return []Ingridient{}, fmt.Errorf("Error status code %d: %s", resp.StatusCode, resp.Body)
+	}
+
 	var ingridients []Ingridient
 	err = json.NewDecoder(resp.Body).Decode(&ingridients)
 
@@ -35,6 +39,10 @@ func (d *External) Random(ctx context.Context, limit int) ([]Ingridient, error) 
 		return []Ingridient{}, err
 	}
 
+	if resp.StatusCode != http.StatusOK {
+		return []Ingridient{}, fmt.Errorf("Error status code %d: %s", resp.StatusCode, resp.Body)
+	}
+
 	var ingridients []Ingridient
 	err = json.NewDecoder(resp.Body).Decode(&ingridients)
 
@@ -47,6 +55,10 @@ func (d *External) Find(ctx context.Context, search string, limit, last int) ([]
 	resp, err := d.Client.Get(url)
 	if err != nil {
 		return []Ingridient{}, err
+	}
+
+	if resp.StatusCode != http.StatusOK {
+		return []Ingridient{}, fmt.Errorf("Error status code %d: %s", resp.StatusCode, resp.Body)
 	}
 
 	var ingridients []Ingridient
