@@ -3,7 +3,7 @@ package recipes
 import (
 	"time"
 
-	"github.com/lazzytchik/foodbot/bot/internal/ingridients"
+	"github.com/lazzytchik/foodbot/internal/ingridients"
 )
 
 type Recipe struct {

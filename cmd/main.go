@@ -15,7 +15,7 @@ import (
 )
 
 func main() {
-	log.Println("foodpicker")
+	log.Println("foodbot")
 	token := "6892396673:AAGliGYDDux8jDMNoZjqpxqnOE6pT5en_Ss"
 	bot, err := tgbotapi.NewBotAPI(token)
 	if err != nil {
