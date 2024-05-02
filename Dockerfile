@@ -19,6 +19,8 @@ RUN echo "${SSH_PRIVATE_KEY}"
 RUN touch /root/.ssh/known_hosts
 RUN ssh-keyscan github.com >> /root/.ssh/known_hosts
 
+ARG GIT_TOKEN
+ADD "https://${GIT_TOKEN}@api.github.com/repos/Lazzytchik/foodapi/commits?per_page=1" latest_commit
 RUN git clone git@github.com:Lazzytchik/foodbot.git repo
 
 WORKDIR /app/repo
@@ -27,6 +29,8 @@ RUN go build -o binary cmd/main.go
 
 FROM alpine
 
-COPY --from=builder /app/repo/binary /app/binary
+COPY --from=builder /app/repo/binary /binary
+
+WORKDIR /
 
 CMD ["./binary"]
