@@ -50,7 +50,7 @@ func (d *External) Random(ctx context.Context, limit int) ([]Ingridient, error) 
 }
 
 func (d *External) Find(ctx context.Context, search string, limit, last int) ([]Ingridient, error) {
-	url := fmt.Sprintf("http://%s/api/v1/ingridients/random?limit=%d&last=%d&search=%s", d.URL, limit, last, search)
+	url := fmt.Sprintf("http://%s/api/v1/ingridients/search?limit=%d&last=%d&search=%s", d.URL, limit, last, search)
 
 	resp, err := d.Client.Get(url)
 	if err != nil {
