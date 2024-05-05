@@ -4,6 +4,7 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
+	"io"
 	"log"
 	"net/http"
 )
@@ -62,7 +63,8 @@ func (d *External) Find(ctx context.Context, search string, limit, last int) ([]
 	}
 
 	if resp.StatusCode != http.StatusOK {
-		return []Ingridient{}, fmt.Errorf("Error status code %d: %s", resp.StatusCode, resp.Body)
+		text, _ := io.ReadAll(resp.Body)
+		return []Ingridient{}, fmt.Errorf("Error status code %d: %s", resp.StatusCode, string(text))
 	}
 
 	var ingridients []Ingridient
