@@ -4,6 +4,7 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
+	"log"
 	"net/http"
 )
 
@@ -52,6 +53,8 @@ func (d *External) Random(ctx context.Context, limit int) ([]Ingridient, error) 
 // is it find though
 func (d *External) Find(ctx context.Context, search string, limit, last int) ([]Ingridient, error) {
 	url := fmt.Sprintf("http://%s/api/v1/ingridients/find?limit=%d&last=%d&search=%s", d.URL, limit, last, search)
+
+	log.Println(url)
 
 	resp, err := d.Client.Get(url)
 	if err != nil {
